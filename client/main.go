@@ -1,15 +1,15 @@
 package main
 
 import (
+	"crypto/tls"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"time"
 
-	"github.com/syncsynchalt/illustrated-tls/fakerand"
-	tls "github.com/syncsynchalt/illustrated-tls/tlscopy"
+	"github.com/hebostary/illustrated-tls/fakerand"
+	//tls "github.com/syncsynchalt/illustrated-tls/tlscopy"
 )
 
 var fakeRandData = []byte{
@@ -37,12 +37,14 @@ func (kw *keyWriter) Write(b []byte) (n int, err error) {
 func main() {
 
 	rand := fakerand.New(fakeRandData)
-	conn, err := tls.Dial("tcp", "localhost:8443", &tls.Config{
-		Rand:         rand,
-		Time:         func() time.Time { return time.Unix(1538708249, 0) },
+	conn, err := tls.Dial("tcp", "127.0.0.1:8443", &tls.Config{
+		Rand: rand,
+		//Time:         func() time.Time { return time.Unix(1538708249, 0) },
 		RootCAs:      buildCaList(),
-		ServerName:   "example.ulfheim.net",
+		ServerName:   "hebostary.com",
 		KeyLogWriter: &keyWriter{},
+		MinVersion:   tls.VersionTLS12,
+		MaxVersion:   tls.VersionTLS12,
 	})
 	if err != nil {
 		panic(err)

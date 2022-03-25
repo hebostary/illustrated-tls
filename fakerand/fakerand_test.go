@@ -7,7 +7,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/syncsynchalt/illustrated-tls/fakerand"
+	"github.com/hebostary/illustrated-tls/fakerand"
 )
 
 // ok fails the test if an err is not nil.
